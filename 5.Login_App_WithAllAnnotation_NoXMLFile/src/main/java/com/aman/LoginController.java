@@ -1,0 +1,44 @@
+package com.aman;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class LoginController {
+
+	@RequestMapping("/login")
+	public ModelAndView checkUser(@RequestParam Map<String,String> reqPar) throws ClassNotFoundException, SQLException{
+	
+		String uname = reqPar.get("uname");
+		String pass = reqPar.get("pass");
+		ModelAndView mv = new ModelAndView();
+		if(new LogInService().checkCredentials(uname, pass)){
+			mv.setViewName("success");
+		}
+		else{
+			mv.setViewName("index");
+		}
+		return mv;
+	}
+	
+/*	@RequestMapping("/login")
+	public ModelAndView checkUser(@RequestParam("uname") String uname, @RequestParam("pass") String pass) throws ClassNotFoundException, SQLException{
+	
+		ModelAndView mv = new ModelAndView();
+		if(new LogInService().checkCredentials(uname, pass)){
+			mv.setViewName("success");
+		}
+		else{
+			mv.setViewName("index");
+		}
+		return mv;
+	}*/
+}
